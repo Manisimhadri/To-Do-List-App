@@ -62,12 +62,16 @@ window.addEventListener('load', () => {
     }
 
     function saveData() {
-        localStorage.setItem("data", list_el.innerHTML);
+        const tasks = [];
+        list_el.querySelectorAll('.task .text').forEach(task_input => {
+            tasks.push(task_input.value);
+        });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
     function loadTasks() {
-        list_el.innerHTML = localStorage.getItem("data") || '';
-        list_el.querySelectorAll('.task').forEach(task_el => setupTaskListeners(task_el));
+        const tasks = JSON.parse(localStorage.getItem("tasks") || '[]');
+        tasks.forEach(task => addTask(task));
     }
 
     loadTasks();
